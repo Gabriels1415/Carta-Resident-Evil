@@ -19,6 +19,7 @@ function App() {
           iq={90}
           descripcion="Carta de tipo luz, un agente con reflejos rápidos y gran puntería. Destaca en situaciones de alto riesgo."
           imagen="/imagenes/leonkennedy.jpg"
+          color="from-yellow-200 via-yellow-300 to-yellow-400"
         />
 
         <Carta
@@ -30,6 +31,7 @@ function App() {
           iq={80}
           descripcion="Carta de tipo tierra, fuerza bruta y resistencia sobrehumana."
           imagen="/imagenes/chrisredfield.jpg"
+          color="from-amber-700 via-yellow-800 to-yellow-900"
         />
 
         <Carta
@@ -41,6 +43,7 @@ function App() {
           iq={95}
           descripcion="Carta de tipo agua, especialista en tácticas y supervivencia."
           imagen="/imagenes/jillvalentine.jpg"
+          color="from-blue-200 via-blue-300 to-blue-400"
         />
 
         <Carta
@@ -52,6 +55,7 @@ function App() {
           iq={92}
           descripcion="Carta de tipo sombra, sigilosa y letal con armas ligeras."
           imagen="/imagenes/adawong.jpeg"
+          color="from-purple-700 via-purple-800 to-purple-900"
         />
 
         <Carta
@@ -63,6 +67,7 @@ function App() {
           iq={85}
           descripcion="Carta de tipo viento, ágil y valiente. Especialista en supervivencia y apoyo táctico."
           imagen="/imagenes/claireredfield.jpeg"
+          color="from-cyan-200 via-cyan-300 to-cyan-400"
         />
 
         <Carta
@@ -74,35 +79,51 @@ function App() {
           iq={87}
           descripcion="Carta de tipo espíritu, un sobreviviente marcado por el horror. Resiliente y con voluntad inquebrantable."
           imagen="/imagenes/ethanwinters.jpeg"
+          color="from-violet-300 via-violet-400 to-violet-500"
         />
-      </div>
- 
+        <Carta
+         id={9}
+        nombre="🌑 Albert Wesker"
+          ataque={125}
+          defensa={100}
+          agilidad={120}
+          iq={100}
+        descripcion="Carta de tipo sombra, un antagonista maestro de la manipulación. Su fuerza sobrehumana y astucia lo convierten en una amenaza constante."
+        imagen="/imagenes/albertwesker.jpeg"
+        color="from-purple-700 via-purple-800 to-purple-900"
+       />
 
-      <div className="flex justify-center mt-10">
-  <div className="bg-black border-4 border-white rounded-full relative w-64 h-64 animate-spin-slow">
-    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 text-yellow-400 font-bold">
-      Luz
-    </div>
-    <div className="absolute top-1/4 right-0 transform -translate-y-1/2 text-purple-500 font-bold">
-      Sombra
-    </div>
-    <div className="absolute bottom-1/4 right-0 transform translate-y-1/2 text-violet-300 font-bold">
-      Espíritu
-    </div>
-    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-amber-700 font-bold">
-      Tierra
-    </div>
-    <div className="absolute bottom-1/4 left-0 transform translate-y-1/2 text-blue-400 font-bold">
-      Agua
-    </div>
-    <div className="absolute top-1/4 left-0 transform -translate-y-1/2 text-cyan-300 font-bold">
-      Viento
-    </div>
-  </div>
-</div>
-</div>
+        <Carta
+        id={10}
+        nombre="🌬️ Hunk"
+        ataque={110}
+        defensa={85}
+        agilidad={80}
+        iq={85}
+        descripcion="Carta de tipo viento, el misterioso 'Grim Reaper' de Umbrella. Su agilidad y precisión táctica lo hacen casi invencible en operaciones encubiertas."
+        imagen="/imagenes/hunk.jpeg"
+        color="from-cyan-200 via-cyan-300 to-cyan-400"
+        />
+
+        <Carta
+      id={11}
+      nombre="🌍 Carlos Oliveira"
+      ataque={100}
+      defensa={95}
+      agilidad={78}
+      iq={80}
+      descripcion="Carta de tipo tierra, un mercenario sudamericano de la U.B.C.S. con gran resistencia y habilidad en armas pesadas. Protector y leal, aporta fuerza y apoyo táctico."
+      imagen="/imagenes/carlosoliveira.jpg"
+      color="from-amber-700 via-yellow-800 to-yellow-900"
+        />
+
+
+      </div>
+     </div>
+
   )
 }
     
- 
+
 export default App
+
