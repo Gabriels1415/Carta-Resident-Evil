@@ -3,93 +3,98 @@ import { useState } from "react"
 type CartaProps = {
   id: number
   nombre: string
-  descripcion: string
+  descripcion1: string
+  descripcion2: string
   ataque: number
   defensa: number
   agilidad: number
   iq: number
   imagen: string
-  color: string  
+  imagenModal: string
 }
 
-function Carta({ nombre, descripcion, ataque, defensa, agilidad, iq, imagen, color }: CartaProps) {
+function Carta({ nombre, descripcion1, descripcion2, ataque, defensa, agilidad, iq, imagen, imagenModal }: CartaProps) {
   const [mostrarInfo, setMostrarInfo] = useState(false)
+
+
+
 
   return (
     <>
 
-      <div
-        className={`bg-gradient-to-b ${color} 
-                    border-2 border-purple-700 rounded-xl 
-                    w-60 h-auto shadow-lg flex flex-col p-2`}
-      >
-        <div className="bg-purple-700 text-white text-center font-bold py-1 rounded-t-md text-sm truncate">
-          {nombre}
-        </div>
 
-        <img
-          src={imagen}
-          alt={nombre}
-          className="w-full h-45 object-cover border-b-2 border-purple-700"
-        />
+<div className="bg-gradient-to-b from-[#450a0a] via-zinc-900 to-black border-2 border-zinc-800 rounded-xl w-60 h-auto shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex flex-col p-2">
 
+  <div className="bg-black/40 text-white/75 text-center font-bold py-1 rounded-t-md text-sm truncate tracking-widest uppercase">
+    {nombre}
+  </div>
+  
+  <img
+    src={imagen}
+    alt={nombre}
+    className="w-full h-45 object-cover border-b border-zinc-800/50 grayscale-[20%]"
+  />
+
+  <button
+    onClick={() => setMostrarInfo(true)}
+    className="mt-2 bg-[#2d0606] text-stone-500 text-[10px] uppercase tracking-widest font-bold py-1 px-2 rounded border border-zinc-800 hover:bg-[#450a0a] hover:text-stone-200 transition-colors"
+  >
+    EXPEDIENTE
+  </button>
+
+  <div className="flex justify-between items-center px-2 py-2 mt-auto text-[10px] font-bold">
+    <span className="text-[#7f1d1d]">⚔️ {ataque}</span>
+    <span className="text-zinc-600">🛡️ {defensa}</span>
+    <span className="text-[#7f1d1d]">⚡ {agilidad}</span>
+    <span className="text-zinc-600">🧠 {iq}</span>
+  </div>
+</div>
+
+      {/* MODAL UNIFICADO: Sin el && para que la animación de salida funcione
+      NOTA: Esto si lo hice con IA porque me salia error  */}
+      <div className={`fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-md z-50 modal-animacion ${mostrarInfo ? 'open' : ''}`}>
+        {/*Hasta aqui*/}
+        
         <button
-          onClick={() => setMostrarInfo(true)}
-          className="mt-2 bg-purple-600 text-white text-xs font-bold py-1 px-2 rounded hover:bg-purple-800 transition"
+          onClick={() => setMostrarInfo(false)}
+          className="absolute top-5 right-10 text-white text-4xl font-light hover:text-red-500 z-[60] transition"
         >
-          Mostrar más información
+          ✕
         </button>
 
-        <div className="flex justify-between items-center px-2 py-1 mt-auto bg-gradient-to-r from-purple-200 to-purple-400 border-t-2 border-purple-700 text-xs">
-          <span className="text-red-700 font-bold">⚔️ Ataque {ataque}</span>
-          <span className="text-blue-700 font-bold">🛡️ Defensa {defensa}</span>
-          <span className="text-red-700 font-bold">⚡ Agilidad {agilidad}</span>
-          <span className="text-blue-700 font-bold">🧠 IQ {iq}</span>
-        </div>
-      </div>
-
-
-      {mostrarInfo && (
-        <div className=" fixed inset-0 flex items-center justify-center bg-blue bg-opacity-50 backdrop-blur-sm z-50">
-          <div className= {`bg-gradient-to-b ${color} 
-                        border-4 border-purple-700 rounded-2xl 
-                        w-[600px] h-[700px] shadow-2xl flex flex-col p-6 relative`}
-          >
+        <div className="w-full h-full flex flex-row items-center justify-between px-10 relative">
           
-      <button
-        onClick={() => setMostrarInfo(false)}
-        className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-      >
-        X
-      </button>
+     
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 text-8xl font-black uppercase tracking-tighter select-none">
+            {nombre}
+          </div>
 
-
-      <h2 className="bg-purple-700 text-white text-center font-bold py-2 rounded-md text-2xl mb-4">
-        {nombre}
-      </h2>
-
-
-      <img
-        src={imagen}
-        alt={nombre}
-        className="w-full h-[400px] object-cover rounded-lg border-2 border-purple-700 mb-4"
-      />
-
-
-      <div className="bg-white text-black p-4 rounded-md mb-4 shadow">
-        <p className="italic">{descripcion}</p>
-      </div>
-
-   
-      <div className="flex justify-between items-center px-4 py-2 mt-auto bg-gradient-to-r from-purple-200 to-purple-400 border-t-4 border-purple-700 text-lg rounded-md">
-        <span className="text-red-700 font-bold">⚔️ Ataque {ataque}</span>
-        <span className="text-blue-700 font-bold">🛡️ Defensa {defensa}</span>
-        <span className="text-red-700 font-bold">⚡ Agilidad {agilidad}</span>
-        <span className="text-blue-700 font-bold">🧠 IQ {iq}</span>
-      </div>
-    </div>
+          <div className="w-full h-full flex flex-row items-center justify-center px-4 relative">
+  
+  <div className="w-1/3 text-stone-200 text-right text-lg md:text-xl font-light italic pr-2 z-10">
+    <p className="border-r-2 border-[#450a0a] pr-4 leading-relaxed">
+      {descripcion1}
+    </p>
   </div>
-)}
+
+  <div className="w-1.2/3 h-[85vh] flex justify-center items-center relative">
+    <div className="absolute inset-0 bg-[#450a0a] opacity-30 blur-[100px] rounded-full"></div>
+    
+    <img
+      src={imagenModal}
+      alt={nombre}
+      className="max-h-full max-w-full object-contain relative z-10 drop-shadow-[0_0_30px_rgba(69,10,10,0.8)]"
+    />
+  </div>
+
+  <div className="w-1/3 text-stone-200 text-left text-lg md:text-xl font-light italic pl-2 z-10">
+    <p className="border-l-2 border-[#450a0a] pl-4 leading-relaxed">
+      {descripcion2}
+    </p>
+    </div>
+    </div>
+      </div>
+      </div>
     </>
   )
 }

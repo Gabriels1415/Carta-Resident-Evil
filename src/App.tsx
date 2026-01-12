@@ -3,13 +3,17 @@ import Carta from "./components/Carta"
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-900 via-pink-700 to-blue-900 p-6">
-      <h1 className="text-center text-white text-4xl font-extrabold mb-6">
-        Cartas Resident Evil
-      </h1>
+    <div 
+      className="min-h-screen bg-cover bg-center bg-no-repeat p-6"
+      style={{ backgroundImage: "url('public/imagenes/fondo.jpg')" }}>
+        
+     <img className="w-160 h-auto mx-auto mb-2 block" 
+     src="public/imagenes/logo.png" 
+    alt="logo" 
+/>
       <p className="text-center text-white mb-4">Nombre: Gabriel Solano</p>
 
-      <div className="flex flex-wrap gap-4 justify-center">
+      <div className="flex flex-wrap gap-30 justify-center">
         <Carta
           id={1}
           nombre="✨ Leon S. Kennedy"
@@ -17,9 +21,12 @@ function App() {
           defensa={85}
           agilidad={85}
           iq={90}
-          descripcion="Carta de tipo luz, un agente con reflejos rápidos y gran puntería. Destaca en situaciones de alto riesgo."
+          descripcion1="Carta tipo Luz ✨. 
+	Experto en combate cuerpo a cuerpo (especialmente con cuchillo), tirador excepcional y estratega bajo presión.
+Rasgos distintivos	Su característico peinado con flequillo y sus chaquetas de cuero."
+          descripcion2="Leon, a la corta edad de 21 años, fue asignado para trabajar en el Departamento de Policía de Raccoon City (Raccoon Police Department abreviado R.P.D.) en su división, las Fuerzas de Policía Selectas (Select Police Forces o S.P.F.). Tras graduarse en la academia de policía, llegó a Raccoon City el 29 de septiembre de 1998 como su primer día de trabajo, pero se encuentra con una aterradora experiencia que cambiaría su vida para siempre."
           imagen="/imagenes/leonkennedy.jpg"
-          color="from-yellow-200 via-yellow-300 to-yellow-400"
+          imagenModal= "public/imagenes/leoncompleto.webp"
         />
 
         <Carta
@@ -29,9 +36,10 @@ function App() {
           defensa={95}
           agilidad={75}
           iq={80}
-          descripcion="Carta de tipo tierra, fuerza bruta y resistencia sobrehumana."
+          descripcion1="Carta de tipo tierra, fuerza bruta y resistencia sobrehumana."
+          descripcion2="cr7"
           imagen="/imagenes/chrisredfield.jpg"
-          color="from-amber-700 via-yellow-800 to-yellow-900"
+          imagenModal= "public/imagenes/chriscompleto.webp"
         />
 
         <Carta
@@ -41,9 +49,10 @@ function App() {
           defensa={85}
           agilidad={95}
           iq={95}
-          descripcion="Carta de tipo agua, especialista en tácticas y supervivencia."
+          descripcion1="Carta de tipo agua, especialista en tácticas y supervivencia." 
+          descripcion2="cr7"
           imagen="/imagenes/jillvalentine.jpg"
-          color="from-blue-200 via-blue-300 to-blue-400"
+          imagenModal= "public/imagenes/jillcompleto.webp"
         />
 
         <Carta
@@ -53,70 +62,88 @@ function App() {
           defensa={70}
           agilidad={90}
           iq={92}
-          descripcion="Carta de tipo sombra, sigilosa y letal con armas ligeras."
+          descripcion1="Carta de tipo sombra, sigilosa y letal con armas ligeras."
+          descripcion2="cr7"
           imagen="/imagenes/adawong.jpeg"
-          color="from-purple-700 via-purple-800 to-purple-900"
+          imagenModal= "public/imagenes/adawongcompleto.webp"
         />
 
         <Carta
-          id={7}
+          id={5}
           nombre="🌬️ Claire Redfield"
           ataque={95}
           defensa={80}
           agilidad={88}
           iq={85}
-          descripcion="Carta de tipo viento, ágil y valiente. Especialista en supervivencia y apoyo táctico."
+          descripcion1="Carta de tipo viento, ágil y valiente. Especialista en supervivencia y apoyo táctico."
+          descripcion2="cr7"
           imagen="/imagenes/claireredfield.jpeg"
-          color="from-cyan-200 via-cyan-300 to-cyan-400"
+          imagenModal= "public/imagenes/claireredfieldcompleto.webp"
         />
 
         <Carta
-          id={8}
+          id={6}
           nombre="🔮 Ethan Winters"
           ataque={100}
           defensa={85}
           agilidad={80}
           iq={87}
-          descripcion="Carta de tipo espíritu, un sobreviviente marcado por el horror. Resiliente y con voluntad inquebrantable."
+          descripcion1="Carta de tipo espíritu, un sobreviviente marcado por el horror. Resiliente y con voluntad inquebrantable."
+          descripcion2="cr7"
           imagen="/imagenes/ethanwinters.jpeg"
-          color="from-violet-300 via-violet-400 to-violet-500"
+          imagenModal= "public/imagenes/ethancompleto.webp"
         />
         <Carta
-         id={9}
+         id={7}
         nombre="🌑 Albert Wesker"
-          ataque={125}
-          defensa={100}
-          agilidad={120}
-          iq={100}
-        descripcion="Carta de tipo sombra, un antagonista maestro de la manipulación. Su fuerza sobrehumana y astucia lo convierten en una amenaza constante."
+        ataque={125}
+        defensa={100}
+        agilidad={120}
+        iq={100}
+        descripcion1="Carta de tipo sombra, un antagonista maestro de la manipulación. Su fuerza sobrehumana y astucia lo convierten en una amenaza constante."
+        descripcion2="messi"
         imagen="/imagenes/albertwesker.jpeg"
-        color="from-purple-700 via-purple-800 to-purple-900"
+        imagenModal= "public/imagenes/albertweskercompleto.webp"
        />
 
         <Carta
-        id={10}
+        id={8}
         nombre="🌬️ Hunk"
         ataque={110}
         defensa={85}
         agilidad={80}
         iq={85}
-        descripcion="Carta de tipo viento, el misterioso 'Grim Reaper' de Umbrella. Su agilidad y precisión táctica lo hacen casi invencible en operaciones encubiertas."
+        descripcion1="Carta de tipo viento, el misterioso 'Grim Reaper' de Umbrella. Su agilidad y precisión táctica lo hacen casi invencible en operaciones encubiertas."
+        descripcion2="cr7"
         imagen="/imagenes/hunk.jpeg"
-        color="from-cyan-200 via-cyan-300 to-cyan-400"
+        imagenModal= "public/imagenes/hunkcompleto.webp"
         />
 
         <Carta
-      id={11}
+      id={9}
       nombre="🌍 Carlos Oliveira"
       ataque={100}
       defensa={95}
       agilidad={78}
       iq={80}
-      descripcion="Carta de tipo tierra, un mercenario sudamericano de la U.B.C.S. con gran resistencia y habilidad en armas pesadas. Protector y leal, aporta fuerza y apoyo táctico."
+      descripcion1="Carta de tipo tierra, un mercenario sudamericano de la U.B.C.S. con gran resistencia y habilidad en armas pesadas. Protector y leal, aporta fuerza y apoyo táctico."
+      descripcion2="cr7"
       imagen="/imagenes/carlosoliveira.jpg"
-      color="from-amber-700 via-yellow-800 to-yellow-900"
+      imagenModal= "public/imagenes/carlosoliveiracompleto.webp"
         />
 
+<Carta
+  id={10}
+  nombre="💉 Jake Muller"
+  ataque={125}
+  defensa={115}
+  agilidad={110}
+  iq={75}
+  descripcion1="Carta de tipo tierra/sangre. Posee capacidades físicas sobrehumanas y un estilo de combate cuerpo a cuerpo letal heredado de su linaje."
+  descripcion2="Hijo del bio-terrorista Albert Wesker. Jake es un mercenario con una estructura genética única que lo hace inmune a los virus. A pesar de su actitud cínica, su fuerza y agilidad lo convierten en uno de los supervivientes más poderosos del post-Raccoon City."
+  imagen="/imagenes/jakemuller.jpg"
+  imagenModal="public/imagenes/jakecompleto.webp"
+/>
 
       </div>
      </div>
