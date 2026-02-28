@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-type CartaProps = {
+export type CartaProps = {
   id: number
   nombre: string
   descripcionBreve: string
