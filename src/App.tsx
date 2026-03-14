@@ -108,7 +108,6 @@ function App() {
         src="/imagenes/logo.png"
         alt="logo"
       />
-
       <p className="text-center text-red-700/80 mb-8 font-bold tracking-widest uppercase">
         Acceso de Nivel Superior: <span className="text-white">Gabriel Solano</span>
       </p>
@@ -119,7 +118,6 @@ function App() {
         <Route path="/editar/:id" element={<EditarCarta />} />
         <Route path="/recomendaciones" element={<Recomendaciones />} />
       </Routes>
-
     </div>
   )
 }
