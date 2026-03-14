@@ -1,180 +1,125 @@
+import { useState, useEffect } from 'react'
 import './App.css'
-import Carta from "./components/Carta"
+import { Routes, Route, Link } from 'react-router-dom'
+import Carta, { type CartaType } from "./components/Carta"
+import Recomendaciones from "./components/recomendaciones"
+import CrearCarta from "./components/CrearCarta"
+import EditarCarta from "./components/EditarCarta"
+import { API } from "./services/api"
+
+function Home() {
+  const [cartas, setCartas] = useState<CartaType[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [busqueda, setBusqueda] = useState('');
+
+  const cargarCartas = async () => {
+    setCargando(true);
+    const data = await API.getCartas();
+    setCartas(data);
+    setCargando(false);
+  };
+
+  useEffect(() => {
+    cargarCartas();
+  }, []);
+
+  const manejarBorrar = async (idCard: number) => {
+    const confirmar = window.confirm("¿Seguro que deseas eliminar esta carta del archivo?");
+    if (confirmar) {
+      try {
+        await API.eliminarCarta(idCard);
+        setCartas(cartas.filter(carta => carta.idCard !== idCard));
+      } catch (error: any) {
+        alert(`Ocurrió un error intentando borrar la carta: ${error.message}`);
+      }
+    }
+  };
+
+  const cartasFiltradas = cartas.filter(carta =>
+    carta.name.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
+  return (
+    <div className="flex flex-col items-center w-full max-w-6xl mx-auto">
+
+      {!cargando && (cartas.length > 0 || busqueda !== '') && (
+        <div className="w-full max-w-md mb-10 relative">
+          <input
+            type="text"
+            placeholder="Buscar sujeto en el archivo..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            className="w-full bg-black/60 border border-red-900/50 rounded-full py-3 px-6 text-white text-center focus:outline-none focus:border-red-500 shadow-[0_0_15px_rgba(255,0,0,0.1)] backdrop-blur-sm transition-all"
+          />
+          {busqueda && (
+            <button
+              onClick={() => setBusqueda('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-500 font-bold"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      )}
+
+      {cargando ? (
+        <div className="text-red-500 font-bold text-2xl animate-pulse mt-20 uppercase tracking-widest text-center">
+          Accediendo a la base de datos...
+        </div>
+      ) : cartas.length === 0 && busqueda === '' ? (
+        <div className="text-stone-400 mt-20 text-center">
+          <p className="text-2xl mb-4 uppercase tracking-widest">No tienes cartas registradas</p>
+          <Link to="/crear" className="text-red-500 hover:text-red-400 border border-red-500 px-4 py-2 rounded">
+            Crear tu Primera Carta
+          </Link>
+        </div>
+      ) : cartasFiltradas.length === 0 ? (
+        <div className="text-stone-400 mt-20 text-center">
+          <p className="text-xl mb-4 uppercase tracking-widest">No se encontraron sujetos con ese nombre</p>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-10 justify-center w-full">
+          {cartasFiltradas.map((carta) => (
+            <Carta
+              key={carta.idCard}
+              carta={carta}
+              onBorrar={manejarBorrar}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 function App() {
   return (
     <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat p-6"
+      className="min-h-screen bg-cover bg-center bg-no-repeat p-6 bg-fixed"
       style={{ backgroundImage: "url('/imagenes/fondo.jpg')" }}>
+
+      <nav className="flex justify-center gap-6 mb-8 bg-black/50 p-4 rounded-lg backdrop-blur-sm max-w-4xl mx-auto border border-zinc-800">
+        <Link to="/" className="text-white hover:text-red-500 font-bold transition-colors">COLECCIÓN</Link>
+        <Link to="/crear" className="text-white hover:text-red-500 font-bold transition-colors">CREAR CARTA</Link>
+        <Link to="/recomendaciones" className="text-white hover:text-red-500 font-bold transition-colors">INFO</Link>
+      </nav>
 
       <img className="w-160 h-auto mx-auto mb-2 block"
         src="/imagenes/logo.png"
         alt="logo"
       />
-      <p className="text-center text-white mb-4">Nombre: Gabriel Solano</p>
 
-      <div className="flex flex-wrap gap-10 justify-center">
-        <Carta
-          id={1}
-          nombre="✨ Leon S. Kennedy"
-          ataque={110}
-          defensa={85}
-          agilidad={85}
-          iq={90}
-          descripcionBreve="Agente federal experto en situaciones biológicas extremas."
-          historia="Leon, a la corta edad de 21 años, sobrevivió al incidente de Raccoon City en su primer día como policía. Desde entonces, se ha convertido en uno de los agentes más capaces del gobierno estadounidense, enfrentando amenazas globales y protegiendo a la familia presidencial."
-          imagen="/imagenes/leonkennedy.jpg"
-          imagenModal="/imagenes/leoncompleto.webp"
-          destrezas={"• Combate Cuchillo\n• Puntería Letal\n• Estratega"}
-          debilidades={"• Protector Obsesivo\n• Traumas Raccoon City"}
-          armasPoderes={"• Matilda\n• Silver Ghost\n• Patada Giratoria"}
-        />
+      <p className="text-center text-red-700/80 mb-8 font-bold tracking-widest uppercase">
+        Acceso de Nivel Superior: <span className="text-white">Gabriel Solano</span>
+      </p>
 
-        <Carta
-          id={2}
-          nombre="🌍 Chris Redfield"
-          ataque={120}
-          defensa={95}
-          agilidad={75}
-          iq={80}
-          descripcionBreve="Capitán de la BSAA y leyenda en la lucha contra el bioterrorismo."
-          historia="Ex-miembro de S.T.A.R.S. y fundador de la BSAA. Chris ha dedicado su vida a erradicar las armas biológicas. Su fuerza física y liderazgo son legendarios, habiendo derrotado amenazas que parecían imposibles."
-          imagen="/imagenes/chrisredfield.jpg"
-          imagenModal="/imagenes/chriscompleto.webp"
-          destrezas={"• Fuerza Bruta\n• Liderazgo\n• Manejo Armas Pesadas"}
-          debilidades={"• Carga Emocional\n• Terquedad"}
-          armasPoderes={"• Puños de Acero\n• Dragoon\n• Machete"}
-        />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/crear" element={<CrearCarta />} />
+        <Route path="/editar/:id" element={<EditarCarta />} />
+        <Route path="/recomendaciones" element={<Recomendaciones />} />
+      </Routes>
 
-        <Carta
-          id={3}
-          nombre="💧 Jill Valentine"
-          ataque={90}
-          defensa={85}
-          agilidad={95}
-          iq={95}
-          descripcionBreve="Especialista en desactivación de explosivos y ganzúas."
-          historia="Una de las pocas supervivientes del equipo original S.T.A.R.S. Jill combina inteligencia aguda con una agilidad excepcional. Ha superado el control mental y virus letales, manteniéndose firme en su lucha."
-          imagen="/imagenes/jillvalentine.jpg"
-          imagenModal="/imagenes/jillcompleto.webp"
-          destrezas={"• Maestra del Desbloqueo\n• Agilidad Extrema\n• Hacking"}
-          debilidades={"• Secuelas P30\n• Sacrificio Personal"}
-          armasPoderes={"• Samurai Edge\n• Ganzúa\n• Esquiva Maestra"}
-        />
-
-        <Carta
-          id={4}
-          nombre="🌑 Ada Wong"
-          ataque={95}
-          defensa={70}
-          agilidad={90}
-          iq={92}
-          descripcionBreve="Espía corporativa envuelta en misterio."
-          historia="Una mercenaria enigmática que trabaja para organizaciones secretas. Sus verdaderas lealtades son desconocidas, pero siempre cumple su misión con estilo y precisión letal."
-          imagen="/imagenes/adawong.jpeg"
-          imagenModal="/imagenes/adawongcompleto.webp"
-          destrezas={"• Espionaje\n• Sigilo\n• Manipulación"}
-          debilidades={"• Juega a dos bandos\n• Leon S. Kennedy"}
-          armasPoderes={"• Ballesta\n• Gancho Táctico\n• Artes Marciales"}
-        />
-
-        <Carta
-          id={5}
-          nombre="🌬️ Claire Redfield"
-          ataque={95}
-          defensa={80}
-          agilidad={88}
-          iq={85}
-          descripcionBreve="Activista de TerraSave y superviviente nata."
-          historia="Hermana menor de Chris. Claire pasó de ser una civil buscando a su hermano a una defensora clave contra el bioterrorismo. Su empatía es su mayor fortaleza, protegiendo siempre a los inocentes."
-          imagen="/imagenes/claireredfield.jpeg"
-          imagenModal="/imagenes/claireredfieldcompleto.webp"
-          destrezas={"• Supervivencia\n• Improvisación\n• Empatía"}
-          debilidades={"• Protección de Menores\n• Civil (No Militar)"}
-          armasPoderes={"• Lanzagranadas\n• Revolver SLS 60\n• Ingenio"}
-        />
-
-        <Carta
-          id={6}
-          nombre="🔮 Ethan Winters"
-          ataque={100}
-          defensa={85}
-          agilidad={80}
-          iq={87}
-          descripcionBreve="Padre decidido impulsado por el amor a su familia."
-          historia="Un arquitecto ordinario arrastrado al infierno. Infectado por el Moho, desarrolló capacidades regenerativas extraordinarias. Su voluntad inquebrantable lo lleva a enfrentar horrores inimaginables por salvar a su hija."
-          imagen="/imagenes/ethanwinters.jpeg"
-          imagenModal="/imagenes/ethancompleto.webp"
-          destrezas={"• Regeneración (Moho)\n• Voluntad de Acero\n• Ingeniería"}
-          debilidades={"• Entrenamiento Formal Limitado\n• Manos Sufridas"}
-          armasPoderes={"• Cuerpo de Moho\n• Bloqueo Defensivo\n• Escopeta"}
-        />
-
-        <Carta
-          id={7}
-          nombre="🌑 Albert Wesker"
-          ataque={125}
-          defensa={100}
-          agilidad={120}
-          iq={100}
-          descripcionBreve="Científico brillante con complejo de dios."
-          historia="El antagonista definitivo. Wesker se inyectó un virus prototipo que le otorgó velocidad y fuerza sobrehumanas. Busca forzar la evolución de la humanidad mediante la selección natural viral."
-          imagen="/imagenes/albertwesker.jpeg"
-          imagenModal="/imagenes/albertweskercompleto.webp"
-          destrezas={"• Velocidad Sónica\n• Fuerza Sobrehumana\n• Intelecto"}
-          debilidades={"• Arrogancia\n• Dependencia de Suero"}
-          armasPoderes={"• Ojos Virales\n• Dash Sónico\n• Artes Marciales"}
-        />
-
-        <Carta
-          id={8}
-          nombre="🌬️ Hunk"
-          ataque={110}
-          defensa={85}
-          agilidad={80}
-          iq={85}
-          descripcionBreve="El legendario 'Mr. Death' de Umbrella."
-          historia="Líder del equipo Alpha de la U.S.S. Es famoso por ser siempre el único superviviente de sus misiones. Frío, calculador y profesional, la misión es lo único que importa."
-          imagen="/imagenes/hunk.jpeg"
-          imagenModal="/imagenes/hunkcompleto.webp"
-          destrezas={"• Ejecución 'Neck Breaker'\n• Sigilo\n• Resistencia"}
-          debilidades={"• Trabajo en Equipo\n• Humanidad Nula"}
-          armasPoderes={"• LE 5\n• Rompecuellos\n• Granadas Cegadoras"}
-        />
-
-        <Carta
-          id={9}
-          nombre="🌍 Carlos Oliveira"
-          ataque={100}
-          defensa={95}
-          agilidad={78}
-          iq={80}
-          descripcionBreve="Mercenario de la U.B.C.S. con corazón de oro."
-          historia="Enviado a Raccoon City como carne de cañón, Carlos demostró su valía protegiendo a Jill. Experto en armas pesadas y guerra de guerrillas, prioriza las vidas sobre las órdenes."
-          imagen="/imagenes/carlosoliveira.jpg"
-          imagenModal="/imagenes/carlosoliveiracompleto.webp"
-          destrezas={"• Armas de Asalto\n• Combate Urbano\n• Lealtad"}
-          debilidades={"• Improvisación\n• Desobedecer Órdenes"}
-          armasPoderes={"• Rifle de Asalto CQBR\n• Puñetazo\n• Hombro Táctico"}
-        />
-
-        <Carta
-          id={10}
-          nombre="💉 Jake Muller"
-          ataque={125}
-          defensa={115}
-          agilidad={110}
-          iq={75}
-          descripcionBreve="Mercenario con sangre maldita."
-          historia="El hijo ilegítimo de Albert Wesker. Heredó la genética superior de su padre, otorgándole fuerza y agilidad inmensas sin perder su humanidad. De cínico mercenario a salvador del mundo."
-          imagen="/imagenes/jakemuller.jpg"
-          imagenModal="/imagenes/jakecompleto.webp"
-          destrezas={"• Genética Wesker\n• Combate Mano a Mano\n• Inmunidad Viral"}
-          debilidades={"• Cinismo\n• Precio Alto"}
-          armasPoderes={"• Fuerza Bruta\n• Artes Marciales\n• Eleven-Seven"}
-        />
-
-      </div>
     </div>
   )
 }
