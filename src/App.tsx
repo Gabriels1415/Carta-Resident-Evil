@@ -11,6 +11,9 @@ function Home() {
   const [cartas, setCartas] = useState<CartaType[]>([]);
   const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState('');
+  const [borrar, setBorrar] = useState(false);
+
+  
 
   const cargarCartas = async () => {
     setCargando(true);
@@ -27,10 +30,13 @@ function Home() {
     const confirmar = window.confirm("¿Seguro que deseas eliminar esta carta del archivo?");
     if (confirmar) {
       try {
+        setBorrar(true);
         await API.eliminarCarta(idCard);
         setCartas(cartas.filter(carta => carta.idCard !== idCard));
       } catch (error: any) {
-        alert(`Ocurrió un error intentando borrar la carta: ${error.message}`);
+       setBorrar(false);
+      } finally {
+        setBorrar(false);
       }
     }
   };
@@ -66,14 +72,21 @@ function Home() {
         <div className="text-red-500 font-bold text-2xl animate-pulse mt-20 uppercase tracking-widest text-center">
           Accediendo a la base de datos...
         </div>
-      ) : cartas.length === 0 && busqueda === '' ? (
+      ) : (
+        <>
+        {borrar && (
+            <div className="text-red-600 font-bold text-2xl animate-pulse my-10 uppercase tracking-widest text-center">
+              Eliminando carta del archivo...
+            </div>
+          )}
+       {cartas.length === 0 && busqueda === '' ? (
         <div className="text-stone-400 mt-20 text-center">
           <p className="text-2xl mb-4 uppercase tracking-widest">No tienes cartas registradas</p>
           <Link to="/crear" className="text-red-500 hover:text-red-400 border border-red-500 px-4 py-2 rounded">
             Crear tu Primera Carta
           </Link>
         </div>
-      ) : cartasFiltradas.length === 0 ? (
+) : cartasFiltradas.length === 0 ? (
         <div className="text-stone-400 mt-20 text-center">
           <p className="text-xl mb-4 uppercase tracking-widest">No se encontraron sujetos con ese nombre</p>
         </div>
@@ -84,13 +97,16 @@ function Home() {
               key={carta.idCard}
               carta={carta}
               onBorrar={manejarBorrar}
-            />
-          ))}
-        </div>
-      )}
+           />
+              ))}
+            </div>
+          )}
+        </>
+      )} 
     </div>
   )
 }
+
 
 function App() {
   return (

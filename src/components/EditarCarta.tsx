@@ -229,8 +229,8 @@ function EditarCarta() {
             disabled={cargando}
             className={`w-2/3 py-4 rounded font-bold uppercase tracking-widest transition-all ${
               cargando 
-                ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' 
-                : 'bg-stone-700 hover:bg-stone-500 text-white shadow-[0_0_15px_rgba(120,113,108,0.5)] cursor-pointer hover:scale-[1.02]'
+                ? 'bg-red-900 text-zinc-500 cursor-not-allowed' 
+                : 'bg-red-600 hover:bg-green-00 text-white shadow-[0_0_15px_rgba(120,113,108,0.5)] cursor-pointer hover:scale-[1.02]'
             }`}
           >
             {cargando ? 'Guardando...' : 'Reescribir Datos'}
