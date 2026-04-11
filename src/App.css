@@ -1,0 +1,13 @@
+.modal-animacion {
+  transition: all 1s ease-in-out;
+  transform: scale(0) rotateY(180deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.modal-animacion.open {
+  transform: scale(1) rotateY(0deg);
+  opacity: 1;
+  pointer-events: auto;
+}
