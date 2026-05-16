@@ -151,6 +151,8 @@ function App() {
         <Route path="/crear" element={<CrearCarta />} />
         <Route path="/editar/:id" element={<EditarCarta />} />
         <Route path="/recomendaciones" element={<Recomendaciones />} />
+        <Route path="/seleccionar-cartas" element={<SeleccionarCartas mazo={cartas}/>} />
+        <Route path='/campo-de-batalla/:id1/:id2' element={<CampoDeBatalla /> } />
       </Routes>
     </div>
   )
