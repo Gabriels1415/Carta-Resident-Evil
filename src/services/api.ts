@@ -76,7 +76,7 @@ export const API = {
       if (!response.ok || data.statusCode) {
         throw new Error(data.message || 'Error al obtener la carta');
       }
-      return data.data[0]; 
+      return data.data[0];
     } catch (error) {
       console.error(`Error al obtener la carta ${id}:`, error);
       throw error;

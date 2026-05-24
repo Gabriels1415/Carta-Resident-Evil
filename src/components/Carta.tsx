@@ -21,14 +21,53 @@ export type CartaType = {
 type CartaProps = {
   carta: CartaType;
   onBorrar?: (idCard: number) => void;
+  color?: string;
+  ancho?: number;
+  alto?: number;
+  seleccionada?: boolean;
+  selectionMode?: boolean;
 }
 
 // Este componente dibuja cada cromo individual
-function Carta({ carta, onBorrar }: CartaProps) {
+function Carta({ carta, onBorrar, color, ancho, alto, seleccionada, selectionMode }: CartaProps) {
   // Para abrir o cerrar el expediente detallado
   const [mostrarInfo, setMostrarInfo] = useState(false)
 
   const { idCard, name, description, attack, defense, lifePoints, pictureUrl, attributes } = carta;
+
+  // Modo selección: carta simplificada para seleccionar o para batalla
+  if (selectionMode) {
+    return (
+      <div 
+        className={`bg-gradient-to-b from-[#450a0a] via-zinc-900 to-black border-2 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex flex-col p-2 hover:scale-105 transition-all duration-300 cursor-pointer ${
+          seleccionada 
+            ? 'border-red-500 shadow-[0_0_25px_rgba(220,38,38,0.6)] scale-105' 
+            : 'border-zinc-800'
+        }`}
+        style={{ 
+          width: ancho || 240, 
+          height: alto || 'auto',
+        }}
+      >
+        <div 
+          className="text-white/75 text-center font-bold py-1 rounded-t-md text-sm truncate tracking-widest uppercase"
+          style={{ backgroundColor: color ? `${color}40` : 'rgba(0,0,0,0.4)' }}
+        >
+          {name}
+        </div>
+        <img
+          src={pictureUrl}
+          alt={name}
+          className="w-full flex-1 object-cover border-b border-zinc-800/50 grayscale-[10%]"
+        />
+        <div className="flex justify-between items-center px-1 py-2 mt-auto text-[10px] font-bold">
+          <span className="text-[#7f1d1d]" title="Ataque">⚔️ {attack}</span>
+          <span className="text-zinc-600" title="Defensa">🛡️ {defense}</span>
+          <span className="text-green-600" title="Puntos de Vida">❤ {lifePoints}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

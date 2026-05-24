@@ -6,14 +6,14 @@ import { API } from '../services/api';
 function CrearCarta() {
   const navigate = useNavigate(); // Para saltar de una pantalla a otra
   const [cargando, setCargando] = useState(false); // Para el botón de enviar
-  
+
   // Aquí guardamos todo lo que el usuario escribe en el formulario
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     attack: '',
     defense: '',
-    lifePoints: '', 
+    lifePoints: '',
     pictureUrl: '',
     attributes: {
       tipo: 'Agente', // Valor inicial por defecto
@@ -191,8 +191,8 @@ function CrearCarta() {
           type="submit"
           disabled={cargando}
           className={`w-full py-4 rounded font-bold uppercase tracking-widest transition-all ${cargando
-              ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
-              : 'bg-red-800 hover:bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] cursor-pointer hover:scale-[1.02]'
+            ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+            : 'bg-red-800 hover:bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)] cursor-pointer hover:scale-[1.02]'
             }`}
         >
           {cargando ? 'Creando Archivo...' : 'Registrar Carta'}

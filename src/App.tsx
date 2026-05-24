@@ -6,31 +6,23 @@ import Carta, { type CartaType } from "./components/Carta"
 import Recomendaciones from "./components/recomendaciones"
 import CrearCarta from "./components/CrearCarta"
 import EditarCarta from "./components/EditarCarta"
+import SeleccionarCartas from "./components/SeleccionarCarta"
+import CampoDeBatalla from "./components/CampoDeBatalla"
 import { API } from "./services/api"
 
+// Propiedades que Home recibe de App
+type HomeProps = {
+  cartas: CartaType[];
+  cargando: boolean;
+  setCartas: React.Dispatch<React.SetStateAction<CartaType[]>>;
+}
+
 // Esta es la pantalla principal donde vemos todas las cartas
-function Home() {
-  // Lista donde guardaremos los datos de todos los personajes
-  const [cartas, setCartas] = useState<CartaType[]>([]);
-  // Para saber si todavía estamos descargando los datos de internet
-  const [cargando, setCargando] = useState(true);
+function Home({ cartas, cargando, setCartas }: HomeProps) {
   // Lo que el usuario va escribiendo para buscar a alguien
   const [busqueda, setBusqueda] = useState('');
   // Para mostrar un aviso si se está borrando algo
   const [borrar, setBorrar] = useState(false);
-
-  // Función para pedirle a la base de datos la lista de personajes
-  const cargarCartas = async () => {
-    setCargando(true);
-    const data = await API.getCartas();
-    setCartas(data); // Metemos los datos en nuestra lista
-    setCargando(false);
-  };
-
-  // Esto se ejecuta apenas entramos a la web
-  useEffect(() => {
-    cargarCartas();
-  }, []);
 
   // Para quitar un personaje del archivo
   const manejarBorrar = async (idCard: number) => {
@@ -124,6 +116,21 @@ function Home() {
 
 // Estructura general de la pantalla y el menú
 function App() {
+  // Estado global de cartas (compartido entre Home y SeleccionarCartas)
+  const [mazoCartas, setMazoCartas] = useState<CartaType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar cartas al iniciar la aplicación
+  useEffect(() => {
+    const cargar = async () => {
+      setLoading(true);
+      const data = await API.getCartas();
+      setMazoCartas(data);
+      setLoading(false);
+    };
+    cargar();
+  }, []);
+
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat p-6 bg-fixed"
@@ -133,6 +140,7 @@ function App() {
       <nav className="flex justify-center gap-6 mb-8 bg-black/50 p-4 rounded-lg backdrop-blur-sm max-w-4xl mx-auto border border-zinc-800">
         <Link to="/" className="text-white hover:text-red-500 font-bold transition-colors">COLECCIÓN</Link>
         <Link to="/crear" className="text-white hover:text-red-500 font-bold transition-colors">CREAR CARTA</Link>
+        <Link to="/seleccionar-cartas" className="text-white hover:text-red-500 font-bold transition-colors">BATALLA</Link>
         <Link to="/recomendaciones" className="text-white hover:text-red-500 font-bold transition-colors">INFO</Link>
       </nav>
 
@@ -147,12 +155,12 @@ function App() {
 
       {/* Mapa que decide qué sección cargar */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home cartas={mazoCartas} cargando={loading} setCartas={setMazoCartas} />} />
         <Route path="/crear" element={<CrearCarta />} />
         <Route path="/editar/:id" element={<EditarCarta />} />
         <Route path="/recomendaciones" element={<Recomendaciones />} />
-        <Route path="/seleccionar-cartas" element={<SeleccionarCartas mazo={cartas}/>} />
-        <Route path='/campo-de-batalla/:id1/:id2' element={<CampoDeBatalla /> } />
+        <Route path="/seleccionar-cartas" element={<SeleccionarCartas mazo={mazoCartas} loading={loading} />} />
+        <Route path='/campo-de-batalla/:id1/:id2' element={<CampoDeBatalla />} />
       </Routes>
     </div>
   )
