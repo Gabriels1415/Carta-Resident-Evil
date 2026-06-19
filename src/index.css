@@ -1,1 +1,14 @@
-@import 'tailwindcss'
+@import 'tailwindcss';
+
+@layer utilities {
+  .anim-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); filter: brightness(1.2); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-8px, 0, 0) scale(1.02); filter: drop-shadow(0 0 25px rgba(220, 38, 38, 1)) brightness(1.5); }
+  40%, 60% { transform: translate3d(8px, 0, 0); }
+}
