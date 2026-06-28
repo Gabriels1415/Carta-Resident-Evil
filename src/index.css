@@ -1,14 +1,243 @@
 @import 'tailwindcss';
 
-@layer utilities {
-  .anim-shake {
-    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+/* --- Animaciones de Batalla VS --- */
+
+@keyframes vs-impact {
+  0% {
+    transform: scale(3);
+    opacity: 0;
+    filter: blur(20px);
+  }
+
+  50% {
+    transform: scale(0.8);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 80px #ff0000;
   }
 }
 
-@keyframes shake {
-  10%, 90% { transform: translate3d(-2px, 0, 0); filter: brightness(1.2); }
-  20%, 80% { transform: translate3d(4px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-8px, 0, 0) scale(1.02); filter: drop-shadow(0 0 25px rgba(220, 38, 38, 1)) brightness(1.5); }
-  40%, 60% { transform: translate3d(8px, 0, 0); }
+@keyframes screen-shake {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate(-10px, 10px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate(10px, -10px);
+  }
+}
+
+@keyframes slide-card-1 {
+  0% {
+    transform: translateY(-120vh);
+    opacity: 0;
+    animation-timing-function: ease-out;
+  }
+
+  15% {
+    transform: translateY(0);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+
+  85% {
+    transform: translateY(10vh);
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-card-2 {
+  0% {
+    transform: translateY(120vh);
+    opacity: 0;
+    animation-timing-function: ease-out;
+  }
+
+  15% {
+    transform: translateY(0);
+    opacity: 1;
+    animation-timing-function: linear;
+  }
+
+  85% {
+    transform: translateY(-10vh);
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out-all {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes show-fire {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fire-flame-flicker {
+  0% {
+    filter: drop-shadow(0 0 10px #7e7973) drop-shadow(0 0 20px #ff4500);
+    opacity: 0.9;
+  }
+
+  100% {
+    filter: drop-shadow(0 0 20px #3b3733) drop-shadow(0 0 40px #969492);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-explosion {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    filter: blur(30px);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    filter: blur(50px);
+    opacity: 1;
+  }
+}
+
+@keyframes flash-lightning {
+
+  0%,
+  80%,
+  84%,
+  88%,
+  100% {
+    opacity: 0;
+  }
+
+  82%,
+  86%,
+  90% {
+    opacity: 1;
+  }
+}
+
+.anim-vs {
+  animation: vs-impact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s forwards;
+  opacity: 0;
+  color: white;
+}
+
+.anim-shake {
+  animation: screen-shake 0.5s ease-in-out 0.6s;
+}
+
+.anim-card-1 {
+  animation: slide-card-1 3.5s forwards;
+}
+
+.anim-card-2 {
+  animation: slide-card-2 3.5s forwards;
+}
+
+.fire-effect {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 120px;
+  height: 150vh;
+  background: #ffffff;
+  clip-path: polygon(40% 0, 70% 15%, 30% 30%, 80% 50%, 20% 70%, 60% 85%, 50% 100%, 30% 100%, 40% 85%, 0% 70%, 60% 50%, 10% 30%, 50% 15%, 20% 0);
+  transform: translateY(-25vh) translateX(-50%) rotate(10deg);
+  opacity: 0;
+  animation: show-fire 0.1s forwards 0.6s, fire-flame-flicker 0.1s infinite alternate 0.6s;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Explosión dividida: ROJA izquierda / AZUL derecha — separadas por el rayo */
+.explosion-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vw;
+  background: linear-gradient(90deg, #ff0000 0%, #ff0000 49%, #0055ff 51%, #0055ff 100%);
+  clip-path: polygon(50% 0%, 60% 30%, 100% 20%, 70% 50%, 100% 80%, 60% 70%, 50% 100%, 40% 70%, 0% 80%, 30% 50%, 0% 20%, 40% 30%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: show-fire 0.1s forwards 0.6s, pulse-explosion 0.2s infinite alternate 0.6s;
+  filter: drop-shadow(0 0 40px #ff0000) drop-shadow(0 0 40px #0055ff);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.lightning-tl,
+.lightning-br {
+  position: absolute;
+  width: 60px;
+  height: 250px;
+  clip-path: polygon(40% 0, 70% 15%, 30% 30%, 80% 50%, 20% 70%, 60% 85%, 50% 100%, 30% 100%, 40% 85%, 0% 70%, 60% 50%, 10% 30%, 50% 15%, 20% 0);
+  opacity: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.lightning-tl {
+  top: -5%;
+  left: 5%;
+  background: red;
+  filter: drop-shadow(0 0 15px red) drop-shadow(0 0 30px red);
+  animation: flash-lightning 1.3s infinite 0.6s;
+  transform: rotate(-30deg);
+}
+
+.lightning-br {
+  bottom: -5%;
+  right: 5%;
+  background: blue;
+  filter: drop-shadow(0 0 15px blue) drop-shadow(0 0 30px blue);
+  animation: flash-lightning 1.6s infinite 0.9s;
+  transform: rotate(150deg);
+}
+
+.anim-fade-out {
+  animation: fade-out-all 0.3s ease-in 3.3s forwards;
 }

@@ -8,6 +8,7 @@ import CrearCarta from "./components/CrearCarta"
 import EditarCarta from "./components/EditarCarta"
 import SeleccionarCartas from "./components/SeleccionarCarta"
 import CampoDeBatalla from "./components/CampoDeBatalla"
+import GenerarCartaIA from "./components/GenerarCartaIA"
 import { API } from "./services/api"
 
 // Propiedades que Home recibe de App
@@ -120,15 +121,17 @@ function App() {
   const [mazoCartas, setMazoCartas] = useState<CartaType[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Función para recargar las cartas cuando se crea o edita una
+  const cargarCartas = async () => {
+    setLoading(true);
+    const data = await API.getCartas();
+    setMazoCartas(data);
+    setLoading(false);
+  };
+
   // Cargar cartas al iniciar la aplicación
   useEffect(() => {
-    const cargar = async () => {
-      setLoading(true);
-      const data = await API.getCartas();
-      setMazoCartas(data);
-      setLoading(false);
-    };
-    cargar();
+    cargarCartas();
   }, []);
 
   return (
@@ -140,6 +143,7 @@ function App() {
       <nav className="flex justify-center gap-6 mb-8 bg-black/50 p-4 rounded-lg backdrop-blur-sm max-w-4xl mx-auto border border-zinc-800">
         <Link to="/" className="text-white hover:text-red-500 font-bold transition-colors">COLECCIÓN</Link>
         <Link to="/crear" className="text-white hover:text-red-500 font-bold transition-colors">CREAR CARTA</Link>
+        <Link to="/generar-carta-ia" className="text-white hover:text-red-500 font-bold transition-colors text-purple-400">GENERAR IA</Link>
         <Link to="/seleccionar-cartas" className="text-white hover:text-red-500 font-bold transition-colors">BATALLA</Link>
         <Link to="/recomendaciones" className="text-white hover:text-red-500 font-bold transition-colors">INFO</Link>
       </nav>
@@ -156,8 +160,9 @@ function App() {
       {/* Mapa que decide qué sección cargar */}
       <Routes>
         <Route path="/" element={<Home cartas={mazoCartas} cargando={loading} setCartas={setMazoCartas} />} />
-        <Route path="/crear" element={<CrearCarta />} />
-        <Route path="/editar/:id" element={<EditarCarta />} />
+        <Route path="/crear" element={<CrearCarta recargarCartas={cargarCartas} />} />
+        <Route path="/generar-carta-ia" element={<GenerarCartaIA recargarCartas={cargarCartas} />} />
+        <Route path="/editar/:id" element={<EditarCarta recargarCartas={cargarCartas} />} />
         <Route path="/recomendaciones" element={<Recomendaciones />} />
         <Route path="/seleccionar-cartas" element={<SeleccionarCartas mazo={mazoCartas} loading={loading} />} />
         <Route path='/campo-de-batalla/:id1/:id2' element={<CampoDeBatalla />} />

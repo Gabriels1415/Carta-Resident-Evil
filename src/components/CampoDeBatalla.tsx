@@ -301,12 +301,12 @@ function CampoDeBatalla() {
         setMenuAbierto(false);
 
         setTimeout(() => {
-            let terminado = false;
+            let _terminado = false;
 
             if (accion === 'curar') {
                 ejecutarCuracion(jugadorTurno);
             } else {
-                terminado = ejecutarAtaque(jugadorTurno, accion);
+                _terminado = ejecutarAtaque(jugadorTurno, accion);
             }
 
             setTimeout(() => {

@@ -3,7 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { API } from '../services/api';
 
 // Pantalla para modificar un personaje ya creado
-function EditarCarta() {
+type Props = {
+  recargarCartas?: () => Promise<void>;
+};
+
+function EditarCarta({ recargarCartas }: Props) {
   const { id } = useParams(); // Para saber qué ID de personaje estamos editando
   const navigate = useNavigate(); // Para volver a la lista principal
 
@@ -92,6 +96,9 @@ function EditarCarta() {
       };
 
       await API.editarCarta(Number(id), datosParaAPI);
+      if (recargarCartas) {
+        await recargarCartas();
+      }
       alert('¡Carta actualizada exitosamente!');
       navigate('/');
     } catch (error: any) {

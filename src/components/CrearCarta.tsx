@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { API } from '../services/api';
 
 // Pantalla para registrar un nuevo personaje
-function CrearCarta() {
+type Props = {
+  recargarCartas?: () => Promise<void>;
+};
+
+function CrearCarta({ recargarCartas }: Props) {
   const navigate = useNavigate(); // Para saltar de una pantalla a otra
   const [cargando, setCargando] = useState(false); // Para el botón de enviar
 
@@ -60,6 +64,9 @@ function CrearCarta() {
 
       // Enviamos el nuevo personaje al servidor
       await API.crearCarta(datosParaAPI);
+      if (recargarCartas) {
+        await recargarCartas();
+      }
       alert('¡Carta creada exitosamente!');
       navigate('/'); // Volvemos a la lista principal
     } catch (error: any) {

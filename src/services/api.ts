@@ -100,5 +100,24 @@ export const API = {
       console.error(`Error al actualizar la carta ${id}:`, error);
       throw error;
     }
+  },
+
+  // Genera una carta usando Inteligencia Artificial
+  generarCartaIA: async (globalContext: string, cardPrompt: string) => {
+    try {
+      const response = await fetch(`${API_URL}/ai/generate-card`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ globalContext, cardPrompt })
+      });
+      const data = await response.json();
+      if (!response.ok || data.statusCode) {
+        throw new Error(data.message || 'Error al generar la carta con IA');
+      }
+      return data;
+    } catch (error) {
+      console.error("Error al generar la carta con IA:", error);
+      throw error;
+    }
   }
 };
