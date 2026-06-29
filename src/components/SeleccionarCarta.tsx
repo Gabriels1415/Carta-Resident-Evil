@@ -50,8 +50,7 @@ function SeleccionarCartas({ mazo, loading }: Props) {
         setAnimando(true);
 
         // Reproducir sonido de impacto. 
-        // Usamos un sonido libre genérico de impacto metálico/espada
-        const audio = new Audio("https://cdn.freesound.org/previews/175/175944_2437358-lq.mp3");
+        const audio = new Audio("/audios/VS.mp3",);
         setTimeout(() => {
             audio.play().catch(e => console.log("Error al reproducir audio:", e));
         }, 500);

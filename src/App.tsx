@@ -115,6 +115,13 @@ function Home({ cartas, cargando, setCartas }: HomeProps) {
   )
 }
 
+// ── Helper de audio para la navegación ──────────────────────
+const reproducirNav = (ruta: string, volumen = 1.0) => {
+  const audio = new Audio(ruta);
+  audio.volume = volumen;
+  audio.play().catch(() => {});
+};
+
 // Estructura general de la pantalla y el menú
 function App() {
   // Estado global de cartas (compartido entre Home y SeleccionarCartas)
@@ -141,11 +148,36 @@ function App() {
 
       {/* Botones del menú principal */}
       <nav className="flex justify-center gap-6 mb-8 bg-black/50 p-4 rounded-lg backdrop-blur-sm max-w-4xl mx-auto border border-zinc-800">
-        <Link to="/" className="text-white hover:text-red-500 font-bold transition-colors">COLECCIÓN</Link>
-        <Link to="/crear" className="text-white hover:text-red-500 font-bold transition-colors">CREAR CARTA</Link>
-        <Link to="/generar-carta-ia" className="text-white hover:text-red-500 font-bold transition-colors text-purple-400">GENERAR IA</Link>
-        <Link to="/seleccionar-cartas" className="text-white hover:text-red-500 font-bold transition-colors">BATALLA</Link>
-        <Link to="/recomendaciones" className="text-white hover:text-red-500 font-bold transition-colors">INFO</Link>
+        <Link
+          to="/"
+          className="text-white hover:text-red-500 font-bold transition-colors"
+          onMouseEnter={() => reproducirNav('/audios/Elegir.mp3')}
+          onClick={() => reproducirNav('/audios/Seleccionar.mp3')}
+        >COLECCIÓN</Link>
+        <Link
+          to="/crear"
+          className="text-white hover:text-red-500 font-bold transition-colors"
+          onMouseEnter={() => reproducirNav('/audios/Elegir.mp3')}
+          onClick={() => reproducirNav('/audios/Seleccionar.mp3')}
+        >CREAR CARTA</Link>
+        <Link
+          to="/generar-carta-ia"
+          className="text-white hover:text-red-500 font-bold transition-colors text-purple-400"
+          onMouseEnter={() => reproducirNav('/audios/Elegir.mp3')}
+          onClick={() => reproducirNav('/audios/Seleccionar.mp3')}
+        >GENERAR IA</Link>
+        <Link
+          to="/seleccionar-cartas"
+          className="text-white hover:text-red-500 font-bold transition-colors"
+          onMouseEnter={() => reproducirNav('/audios/Elegir.mp3')}
+          onClick={() => reproducirNav('/audios/Seleccionar.mp3')}
+        >BATALLA</Link>
+        <Link
+          to="/recomendaciones"
+          className="text-white hover:text-red-500 font-bold transition-colors"
+          onMouseEnter={() => reproducirNav('/audios/Elegir.mp3')}
+          onClick={() => reproducirNav('/audios/Seleccionar.mp3')}
+        >INFO</Link>
       </nav>
 
       {/* Imagen del logo principal */}

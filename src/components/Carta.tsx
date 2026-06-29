@@ -74,7 +74,7 @@ function Carta({ carta, onBorrar, color, ancho, alto, seleccionada, selectionMod
       {/* Tarjeta pequeña que se ve al inicio */}
       <div className="bg-gradient-to-b from-[#450a0a] via-zinc-900 to-black border-2 border-zinc-800 rounded-xl w-60 h-auto shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex flex-col p-2 hover:scale-105 transition-transform duration-300 relative group">
         
-        {/* Botón de borrar (solo si se permite borrar) */}
+        {/* Botón de borrar */}
         {onBorrar && (
           <button 
             onClick={() => onBorrar(idCard)}
